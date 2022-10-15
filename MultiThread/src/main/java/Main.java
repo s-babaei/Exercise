@@ -14,12 +14,17 @@ public class Main {
     final static String outputFilePath
             = "D:\\digi\\Exercise1\\MultiThread\\result.txt";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
 
 
-        Map<String, Long> collect = Files.lines(Paths.get("D:\\digi\\Exercise1\\MultiThread\\sara.txt")).parallel().
-                map(f -> f.split("[.]|[ ]|[?]|[!]|[,]|[:]|[\"]")).flatMap(Arrays::stream)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        Map<String, Long> collect = null;
+        try {
+            collect = Files.lines(Paths.get("D:\\digi\\Exercise1\\MultiThread\\sara.txt")).parallel().
+                    map(f -> f.split("[.]|[ ]|[?]|[!]|[,]|[:]|[\"]")).flatMap(Arrays::stream)
+                    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         System.out.println(collect);
@@ -37,7 +42,7 @@ public class Main {
            bufferedWriter.newLine();
         }
 
-        bufferedWriter.flush();
+
         }
         catch (IOException e) {
             e.printStackTrace();
